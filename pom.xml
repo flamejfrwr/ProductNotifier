@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Это корневой агрегатор/родитель -->
+    <groupId>by.javaguru.ws</groupId>
+    <artifactId>ProductNotifier</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>ProductNotifier</name>
+    <description>Parent aggregator for ProductNotifier multi-module project</description>
+
+    <!-- Общий родитель Spring Boot (даёт BOM + дефолтные плагины) -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.7</version>
+        <relativePath/>
+    </parent>
+
+    <!-- Что входит в сборку (ВАЖНО: core тоже входит) -->
+    <modules>
+        <module>core</module>
+        <module>ProductMicroservice</module>
+        <module>EmailNotificationMicroservice</module>
+        <module>mockservice</module>
+    </modules>
+
+    <!-- Общие свойства для всех модулей -->
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <!-- Чтобы не писать версии зависимостей вручную, где это возможно -->
+        <postgresql.version>42.7.3</postgresql.version>
+    </properties>
+
+    <!-- Централизуем версии и общие зависимости (дети подключают без version) -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Общие настройки плагинов для всех модулей -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Единый компилятор (java 17) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <release>${java.version}</release>
+                    </configuration>
+                </plugin>
+
+                <!-- Единые тесты (можно выключать -DskipTests) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <useSystemClassLoader>false</useSystemClassLoader>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

@@ -1,0 +1,18 @@
+# Maven build artifacts
+target/
+*.log
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Secrets / local configs
+.env
+application-local.yml
+application-local.properties
+

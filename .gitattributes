@@ -1,0 +1,9 @@
+# По умолчанию: текст → LF
+* text=auto eol=lf
+# Windows-скрипты → CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
+**/mvnw.cmd text eol=crlf
+**/mvnw text eol=lf
+# На всякий случай: shell-скрипты → LF
+*.sh text eol=lf
